@@ -1,3 +1,4 @@
 Nombre: Meliza
-Edad: 36
 Hobby: conocer nuevos lugares 
+Comida favorita: suhi
+Disfruto de ir al cine 
