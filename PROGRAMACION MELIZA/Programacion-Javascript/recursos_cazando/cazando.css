@@ -1,4 +1,3 @@
-/* 1. IMPORTAR LA FUENTE GAMER (Obligatorio en la primera línea y con URL correcta) */
 @import url('https://googleapis.com');
 
 body {
@@ -10,23 +9,23 @@ body {
   margin: 0;
   padding: 20px;
   color: #1e293b;
-  font-family: 'Press Start 2P', cursive, sans-serif; /* Aplicamos la tipografía general */
+  font-family: 'Press Start 2P', cursive, sans-serif;
 } 
 
 h1 {
   text-align: center;
-  color: #facc15; /* Amarillo brillante gamer */
+  color: #facc15; 
   font-family: 'Press Start 2P', cursive, sans-serif; 
   font-size: 2rem; 
   margin-bottom: 12px;
-  text-shadow: 0 0 15px rgba(250, 204, 21, 0.5), 3px 3px 0px #000; /* Brillo y borde negro */
+  text-shadow: 0 0 15px rgba(250, 204, 21, 0.5), 3px 3px 0px #000; 
 }
 
 p {
   text-align: center;
-  color: #94a3b8; /* Gris azulado claro */
+  color: #94a3b8; 
   font-family: 'Press Start 2P', cursive, sans-serif; 
-  font-size: 0.9rem; 
+  font-size: 0.8rem; 
   text-shadow: 2px 2px 0px #000; 
   line-height: 1.5;
 }
@@ -37,10 +36,9 @@ canvas {
   background: #ffffff;
   border: 4px solid #2c3e50;
   border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3); /* Sombra más marcada para que resalte del fondo */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3); 
 }
 
-/* Panel de puntuación moderno */
 .panel {
   display: flex;
   justify-content: center;
@@ -52,7 +50,7 @@ canvas {
   background: #ffffff;
   padding: 8px 20px;
   border-radius: 8px;
-  font-size: 1rem; /* Ajustado para que quepa bien la fuente pixelada */
+  font-size: 1rem; 
   font-weight: bold;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   border-left: 5px solid #ffd54f;
@@ -64,12 +62,10 @@ canvas {
   font-size: 1rem;
   text-align: center;
   font-weight: bold;
-  color: #ffd54f; /* Cambiado a amarillo original para iniciar */
-  transition: all 0.3s ease;
+  color: #ffd54f; 
   margin-top: 15px;
 }
 
-/* Controles en Pantalla (Sincronizados con las clases del HTML) */
 .controls {
   display: flex;
   flex-direction: column;
@@ -82,7 +78,6 @@ canvas {
   justify-content: center;
 }
 
-/* Estilo unificado para todas las flechas */
 .btn-control {
   width: 60px;
   height: 50px;
@@ -106,9 +101,8 @@ canvas {
   transform: translateY(4px);
 }
 
-/* Botón Reiniciar (NEW) */
 .boton-reiniciar {
-  display: none; /* Inicia oculto gracias a la lógica del juego en JS */                
+  display: none;                 
   margin: 20px auto 0 auto;      
   background-color: #facc15;   
   color: #000000;                 
