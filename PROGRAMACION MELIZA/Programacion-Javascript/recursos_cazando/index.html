@@ -7,35 +7,35 @@
   <link rel="stylesheet" href="cazando.css">
 </head>
 <body>
+<!-- Busca tu etiqueta body y cámbiala para que quede así -->
+<body onload="iniciarJuego()">
 
   <h1>Juego Cazando</h1>
-  <p id="mensaje">Autor: MLxz</p> <!-- Agregamos id="mensaje" para que JS pueda cambiar el texto aquí -->
+  <p id="mensaje">Autor: MLxz</p>
 
-  <!-- Canvas con el área de juego -->
-  <canvas id="juego" width="500" height="350"></canvas>
+  <div style="text-align: center;">
+    <canvas id="juego" width="500" height="350"></canvas>
+  </div>
 
-  <!-- Panel de información moderno -->
   <div class="panel">
     <div class="stat-box">Puntos: <span id="puntos">0</span></div>
     <div class="stat-box">Tiempo: <span id="tiempo">10</span></div>
   </div>
 
-  <!-- Botones de Control (Flechas) -->
   <div class="controls">
-    <button id="btn-up" class="btn-control">↑</button> <!-- Corregido: de 'cazando.css' a 'btn-control' -->
+    <button id="arriba" class="btn-control">↑</button>
     <div class="row">
-      <button id="btn-left" class="btn-control">←</button>
-      <button id="btn-down" class="btn-control">↓</button>
-      <button id="btn-right" class="btn-control">→</button>
+      <button id="izquierda" class="btn-control">←</button>
+      <button id="abajo" class="btn-control">↓</button>
+      <button id="derecha" class="btn-control">→</button>
     </div>
   </div>
 
-  <!-- Botón de reiniciar -->
   <div style="text-align: center;">
     <button id="btn-reiniciar" class="boton-reiniciar">NEW</button>
   </div>
 
   <script src="cazando.js"></script>
 </body>
-</html>
+
 

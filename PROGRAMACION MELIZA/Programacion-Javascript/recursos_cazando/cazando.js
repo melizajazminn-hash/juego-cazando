@@ -1,99 +1,97 @@
-// Configuración del Canvas
+// Obtener el canvas y su contexto ---
 const canvas = document.getElementById("juego");
 const ctx = canvas.getContext("2d");
 
-// Elementos de la Interfaz
+// Elementos del HTML para la interfaz
 const txtPuntos = document.getElementById("puntos");
 const txtTiempo = document.getElementById("tiempo");
 const txtMensaje = document.getElementById("mensaje");
 const botonReiniciar = document.getElementById('btn-reiniciar');
 
-// Estado del Juego
+// Definición de Variables (inicializadas en 0) ---
+let gatoX = 0;
+let gatoY = 0;
+let comidaX = 0;
+let comidaY = 0;
+
+// Variables de control del estado del juego
 let puntos = 0;
 let tiempo = 10;
 let juegoActivo = true;
 let temporizador = null;
-
-// Datos del Personaje (Cazador)
-let personajeX = 230;
-let personajeY = 150;
-const anchoPersonaje = 40;
-const altoPersonaje = 40;
 const velocidad = 15;
+const ANCHO_GATO = 40;
+const ALTO_GATO = 40;
+const ANCHO_COMIDA = 24; 
+const ALTO_COMIDA = 24;
 
-// Datos del Objetivo (Premio)
-let objetivoX = 0;
-let objetivoY = 0;
-const radioObjetivo = 12; // Será un círculo verde
+// Función genérica encargada de dibujar cualquier rectángulo ---
+function graficarRectangulo(x, y, ancho, alto, color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, ancho, alto);
+}
 
-// --- FUNCIONES DE DIBUJO ---
+// Función modificada para graficar el gato
+function graficarGato() {
+    // Cuerpo del gato (Cazador Amarillo)
+    graficarRectangulo(gatoX, gatoY, ANCHO_GATO, ALTO_GATO, "gold");
 
-function dibujarJuego() {
-    // Limpiar pantalla
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Ojos del gato
+    graficarRectangulo(gatoX + 8, gatoY + 10, 6, 6, "black");
+    graficarRectangulo(gatoX + 26, gatoY + 10, 6, 6, "black");
 
-    // 1. Dibujar Objetivo (Moneda/Fruta)
+    // Sonrisa del gato
     ctx.beginPath();
-    ctx.arc(objetivoX, objetivoY, radioObjetivo, 0, Math.PI * 2);
-    ctx.fillStyle = "#4caf50"; // Verde brillante
-    ctx.fill();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = "#1b5e20";
-    ctx.stroke();
-    ctx.closePath();
-
-    // 2. Dibujar Personaje (Cazador Amarillo)
-    ctx.fillStyle = "gold";
-    ctx.fillRect(personajeX, personajeY, anchoPersonaje, altoPersonaje);
-
-    // Ojos
-    ctx.fillStyle = "black";
-    ctx.fillRect(personajeX + 8, personajeY + 10, 6, 6);
-    ctx.fillRect(personajeX + 26, personajeY + 10, 6, 6);
-
-    // Sonrisa
-    ctx.beginPath();
-    ctx.arc(personajeX + 20, personajeY + 23, 10, 0, Math.PI);
+    ctx.arc(gatoX + 20, gatoY + 23, 10, 0, Math.PI);
     ctx.strokeStyle = "black";
     ctx.lineWidth = 2;
     ctx.stroke();
     ctx.closePath();
 }
 
-// --- LÓGICA DEL JUEGO ---
+// graficar la comida 
+function graficarComida() {
+    // Comida (Cuadrado verde brillante con borde)
+    graficarRectangulo(comidaX, comidaY, ANCHO_COMIDA, ALTO_COMIDA, "#4caf50");
+    
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#1b5e20";
+    ctx.strokeRect(comidaX, comidaY, ANCHO_COMIDA, ALTO_COMIDA);
+}
 
-function moverObjetivo() {
-    // Coloca el objetivo en una posición aleatoria dentro del canvas respetando los bordes
-    objetivoX = Math.floor(Math.random() * (canvas.width - radioObjetivo * 2)) + radioObjetivo;
-    objetivoY = Math.floor(Math.random() * (canvas.height - radioObjetivo * 2)) + radioObjetivo;
+// --- FUNCIÓN PRINCIPAL DE DIBUJO ---
+function dibujarJuego() {
+    // Limpiar pantalla antes de redibujar
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Renderizar los elementos
+    graficarComida();
+    graficarGato();
+}
+
+// --- LÓGICA Y REGLAS ---
+
+function moverComidaAleatoria() {
+    // Coloca la comida en una posición al azar sin salirse de los límites del lienzo
+    comidaX = Math.floor(Math.random() * (canvas.width - ANCHO_COMIDA));
+    comidaY = Math.floor(Math.random() * (canvas.height - ALTO_COMIDA));
 }
 
 function verificarColision() {
-    // CORREGIDO: Lógica matemática por bordes para que detecte la colisión fácilmente
-    let personajeIzquierda = personajeX;
-    let personajeDerecha = personajeX + anchoPersonaje;
-    let personajeArriba = personajeY;
-    let personajeAbajo = personajeY + altoPersonaje;
-
-    let objetivoIzquierda = objetivoX - radioObjetivo;
-    let objetivoDerecha = objetivoX + radioObjetivo;
-    let objetivoArriba = objetivoY - radioObjetivo;
-    let objetivoAbajo = objetivoY + radioObjetivo;
-
-    if (personajeDerecha >= objetivoIzquierda &&
-        personajeIzquierda <= objetivoDerecha &&
-        personajeAbajo >= objetivoArriba &&
-        personajeArriba <= objetivoAbajo) {
+    // Caja de colisión matemática por bordes entre el Gato y la Comida
+    if (gatoX + ANCHO_GATO >= comidaX &&
+        gatoX <= comidaX + ANCHO_COMIDA &&
+        gatoY + ALTO_GATO >= comidaY &&
+        gatoY <= comidaY + ALTO_COMIDA) {
         
         puntos++;
         if (txtPuntos) txtPuntos.textContent = puntos;
         if (txtMensaje) txtMensaje.textContent = "¡Cazado! 🎯";
-        moverObjetivo();
+        moverComidaAleatoria();
     }
 }
 
 function iniciarTemporizador() {
-    // Evita duplicar temporizadores
     if (temporizador) return; 
 
     temporizador = setInterval(() => {
@@ -106,97 +104,70 @@ function iniciarTemporizador() {
             juegoActivo = false;
             
             if (txtMensaje) {
-                txtMensaje.textContent = `¡Tiempo agotado! Puntuación final: ${puntos} 🏆`;
+                txtMensaje.textContent = `¡Tiempo agotado! Final: ${puntos} 🏆`;
                 txtMensaje.style.color = "#d32f2f";
             }
-            
-            // Muestra el botón de reiniciar cuando el juego termina
-            if (botonReiniciar) {
-                botonReiniciar.style.display = "block";
-            }
+            if (botonReiniciar) botonReiniciar.style.display = "block";
         }
     }, 1000);
 }
 
-// --- MOVIMIENTOS ---
-
 function mover(direccion) {
     if (!juegoActivo) return;
-    iniciarTemporizador(); // El juego empieza al moverte
+    iniciarTemporizador(); 
 
-    if (direccion === "arriba" && personajeY > 0) personajeY -= velocidad;
-    if (direccion === "abajo" && personajeY < canvas.height - altoPersonaje) personajeY += velocidad;
-    if (direccion === "izquierda" && personajeX > 0) locksmith: personajeX -= velocidad;
-    if (direccion === "derecha" && personajeX < canvas.width - anchoPersonaje) personajeX += velocidad;
+    if (direccion === "arriba" && gatoY > 0) gatoY -= velocidad;
+    if (direccion === "abajo" && gatoY < canvas.height - ALTO_GATO) gatoY += velocidad;
+    if (direccion === "izquierda" && gatoX > 0) gatoX -= velocidad;
+    if (direccion === "derecha" && gatoX < canvas.width - ANCHO_GATO) gatoX += velocidad;
 
     verificarColision();
     dibujarJuego();
 }
 
-// --- FUNCIÓN REINICIAR ---
-
-function reiniciarJuego() {
-    // Frenamos el temporizador actual
-    if (temporizador) {
-        clearInterval(temporizador);
-        temporizador = null;
-    }
-    
-    // Restablecemos los estados e interfaz
+//  Iniciar Juego asignando posiciones requeridas ---
+function iniciarJuego() {
     puntos = 0;
     tiempo = 10;
     juegoActivo = true;
-    
+
+    // El gato aparece centrado en el canvas
+    gatoX = (canvas.width / 2) - (ANCHO_GATO / 2);
+    gatoY = (canvas.height / 2) - (ALTO_GATO / 2);
+
+    // La comida aparece inicialmente en la esquina inferior derecha
+    comidaX = canvas.width - ANCHO_COMIDA - 10;
+    comidaY = canvas.height - ALTO_COMIDA - 10;
+
+    // Actualizar marcadores e interfaz
     if (txtPuntos) txtPuntos.textContent = puntos;
     if (txtTiempo) txtTiempo.textContent = tiempo;
-    
     if (txtMensaje) {
         txtMensaje.textContent = "Autor: MLxz y su amigo Ia";
-        txtMensaje.style.color = "#ffd54f"; // Restablece color original
+        txtMensaje.style.color = "#ffd54f"; 
     }
-    
-    // Oculta el botón de nuevo al iniciar
-    if (botonReiniciar) {
-        botonReiniciar.style.display = "none"; 
-    }
-    
-    // Posición inicial del personaje
-    personajeX = 230;
-    personajeY = 150;
-    
-    moverObjetivo();
+    if (botonReiniciar) botonReiniciar.style.display = "none"; 
+
+    // Dibujar el inicio
     dibujarJuego();
-    console.log("El juego se ha reiniciado. ¡A cazar!");
 }
 
-// --- CONTROLADORES DE EVENTOS ---
+// --- ENLACES Y LISTENERS ---
+if (botonReiniciar) botonReiniciar.addEventListener('click', iniciarJuego);
 
-// Asignar el evento clic al botón de reiniciar de forma segura
-if (botonReiniciar) {
-    botonReiniciar.addEventListener('click', reiniciarJuego);
-    // De entrada lo ocultamos para que solo aparezca al perder
-    botonReiniciar.style.display = "none"; 
-}
-
-// Eventos del mouse/clic en los botones amarillos de la pantalla
-const btnArriba = document.getElementById("arriba") || document.getElementById("btn-up");
-const btnAbajo = document.getElementById("abajo") || document.getElementById("btn-down");
-const btnIzquierda = document.getElementById("izquierda") || document.getElementById("btn-left");
-const btnDerecha = document.getElementById("derecha") || document.getElementById("btn-right");
+const btnArriba = document.getElementById("arriba");
+const btnAbajo = document.getElementById("abajo");
+const btnIzquierda = document.getElementById("izquierda");
+const btnDerecha = document.getElementById("derecha");
 
 if (btnArriba) btnArriba.addEventListener("click", () => mover("arriba"));
 if (btnAbajo) btnAbajo.addEventListener("click", () => mover("abajo"));
 if (btnIzquierda) btnIzquierda.addEventListener("click", () => mover("izquierda"));
 if (btnDerecha) btnDerecha.addEventListener("click", () => mover("derecha"));
 
-// Eventos del Teclado
 window.addEventListener("keydown", (evento) => {
     if (["ArrowUp", "KeyW"].includes(evento.key)) mover("arriba");
     if (["ArrowDown", "KeyS"].includes(evento.key)) mover("abajo");
     if (["ArrowLeft", "KeyA"].includes(evento.key)) mover("izquierda");
     if (["ArrowRight", "KeyD"].includes(evento.key)) mover("derecha");
 });
-
-// --- INICIALIZACIÓN INICIAL ---
-moverObjetivo();
-dibujarJuego();
