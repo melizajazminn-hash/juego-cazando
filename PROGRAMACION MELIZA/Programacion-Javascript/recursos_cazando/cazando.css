@@ -1,0 +1,127 @@
+/* 1. IMPORTAR LA FUENTE GAMER (Obligatorio en la primera línea y con URL correcta) */
+@import url('https://googleapis.com');
+
+body {
+  background-image: url('cazando.jpeg'); 
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 20px;
+  color: #1e293b;
+  font-family: 'Press Start 2P', cursive, sans-serif; /* Aplicamos la tipografía general */
+} 
+
+h1 {
+  text-align: center;
+  color: #facc15; /* Amarillo brillante gamer */
+  font-family: 'Press Start 2P', cursive, sans-serif; 
+  font-size: 2rem; 
+  margin-bottom: 12px;
+  text-shadow: 0 0 15px rgba(250, 204, 21, 0.5), 3px 3px 0px #000; /* Brillo y borde negro */
+}
+
+p {
+  text-align: center;
+  color: #94a3b8; /* Gris azulado claro */
+  font-family: 'Press Start 2P', cursive, sans-serif; 
+  font-size: 0.9rem; 
+  text-shadow: 2px 2px 0px #000; 
+  line-height: 1.5;
+}
+
+canvas {
+  display: block;
+  margin: 20px auto;
+  background: #ffffff;
+  border: 4px solid #2c3e50;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3); /* Sombra más marcada para que resalte del fondo */
+}
+
+/* Panel de puntuación moderno */
+.panel {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 15px auto;
+}
+
+.stat-box {
+  background: #ffffff;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 1rem; /* Ajustado para que quepa bien la fuente pixelada */
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-left: 5px solid #ffd54f;
+  color: #1e293b;
+}
+
+#mensaje {
+  font-family: 'Press Start 2P', cursive, sans-serif;
+  font-size: 1rem;
+  text-align: center;
+  font-weight: bold;
+  color: #ffd54f; /* Cambiado a amarillo original para iniciar */
+  transition: all 0.3s ease;
+  margin-top: 15px;
+}
+
+/* Controles en Pantalla (Sincronizados con las clases del HTML) */
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+/* Estilo unificado para todas las flechas */
+.btn-control {
+  width: 60px;
+  height: 50px;
+  margin: 4px;
+  font-size: 22px;
+  border: 2px solid #000000;
+  border-radius: 8px;
+  background: #ffd54f;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0 4px #ffb300, 2px 2px 0px #000;
+  transition: all 0.1s ease;
+}
+
+.btn-control:hover {
+  background: #ffca28;
+}
+
+.btn-control:active {
+  box-shadow: 0 0 #ffb300, 0px 0px 0px #000;
+  transform: translateY(4px);
+}
+
+/* Botón Reiniciar (NEW) */
+.boton-reiniciar {
+  display: none; /* Inicia oculto gracias a la lógica del juego en JS */                
+  margin: 20px auto 0 auto;      
+  background-color: #facc15;   
+  color: #000000;                 
+  border: 3px solid #000000;      
+  padding: 10px 20px;
+  font-family: 'Press Start 2P', cursive, sans-serif; 
+  font-size: 0.8rem;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px #000000; 
+  transition: transform 0.1s;
+}
+
+.boton-reiniciar:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px #000000;
+}
