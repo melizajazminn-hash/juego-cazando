@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego Cazando - Edición Pro</title>
+  <link rel="stylesheet" href="cazando.css">
+</head>
+<body>
+
+  <h1>Juego Cazando</h1>
+  <p id="mensaje">Autor: MLxz</p> <!-- Agregamos id="mensaje" para que JS pueda cambiar el texto aquí -->
+
+  <!-- Canvas con el área de juego -->
+  <canvas id="juego" width="500" height="350"></canvas>
+
+  <!-- Panel de información moderno -->
+  <div class="panel">
+    <div class="stat-box">Puntos: <span id="puntos">0</span></div>
+    <div class="stat-box">Tiempo: <span id="tiempo">10</span></div>
+  </div>
+
+  <!-- Botones de Control (Flechas) -->
+  <div class="controls">
+    <button id="btn-up" class="btn-control">↑</button> <!-- Corregido: de 'cazando.css' a 'btn-control' -->
+    <div class="row">
+      <button id="btn-left" class="btn-control">←</button>
+      <button id="btn-down" class="btn-control">↓</button>
+      <button id="btn-right" class="btn-control">→</button>
+    </div>
+  </div>
+
+  <!-- Botón de reiniciar -->
+  <div style="text-align: center;">
+    <button id="btn-reiniciar" class="boton-reiniciar">NEW</button>
+  </div>
+
+  <script src="cazando.js"></script>
+</body>
+</html>
+
